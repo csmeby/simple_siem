@@ -1,0 +1,12 @@
+id: R1001
+name: SSH brute-force
+description: Detect multiple failed SSH logins from the same IP
+enabled: true
+conditions:
+  event_type: auth_failure
+window:
+  minutes: 5
+threshold:
+  count: 10
+severity: high
+key_field: src_ip

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Simple SIEM - Alerts</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    h1 { margin-bottom: 10px; }
+    button { padding: 5px 10px; margin-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 4px 8px; font-size: 14px; }
+    th { background: #eee; }
+  </style>
+</head>
+<body>
+  <h1>Alerts</h1>
+  <button onclick="loadAlerts()">Refresh</button>
+  <table id="alerts">
+    <thead>
+      <tr><th>Time</th><th>Severity</th><th>Rule</th><th>Title</th><th>Status</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadAlerts() {
+      const res = await fetch('/alerts?limit=50');
+      const data = await res.json();
+      const tbody = document.querySelector('#alerts tbody');
+      tbody.innerHTML = '';
+      for (const a of data) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${a.timestamp}</td>
+          <td>${a.severity}</td>
+          <td>${a.rule_id}</td>
+          <td>${a.title}</td>
+          <td>${a.status}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+    loadAlerts();
+  </script>
+</body>
+</html>

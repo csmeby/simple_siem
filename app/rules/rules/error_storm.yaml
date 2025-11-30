@@ -1,0 +1,12 @@
+id: R2001
+name: Application error storm
+description: Many ERROR logs from the same host in 1 minute
+enabled: true
+conditions:
+  severity: ERROR
+window:
+  minutes: 1
+threshold:
+  count: 5
+severity: medium
+key_field: host
