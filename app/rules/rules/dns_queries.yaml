@@ -1,0 +1,13 @@
+id: R3003
+name: DNS query flood
+description: High volume of DNS queries from a single host
+enabled: true
+conditions:
+  event_type: dns_query
+window:
+  minutes: 1
+threshold:
+  count: 100
+severity: medium
+key_field: host
+mitre_attack: TA0011

@@ -1,0 +1,13 @@
+id: R7003
+name: SMB authentication failures
+description: Multiple failed SMB authentication attempts from a single host
+enabled: true
+conditions:
+  event_type: smb_auth_failure
+window:
+  minutes: 2
+threshold:
+  count: 8
+severity: medium
+key_field: src_host
+mitre_attack: TA0008

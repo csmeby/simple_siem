@@ -1,0 +1,13 @@
+id: R1003
+name: Excessive password reset requests
+description: Multiple password reset attempts for the same user
+enabled: true
+conditions:
+  event_type: password_reset_request
+window:
+  minutes: 10
+threshold:
+  count: 3
+severity: medium
+key_field: user
+mitre_attack: TA0006

@@ -1,0 +1,13 @@
+id: R5001
+name: Process creation burst
+description: Rapid creation of multiple processes on the same host
+enabled: true
+conditions:
+  event_type: process_start
+window:
+  seconds: 10
+threshold:
+  count: 20
+severity: high
+key_field: host
+mitre_attack: TA0002

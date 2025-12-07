@@ -1,0 +1,13 @@
+id: R4001
+name: Service restart storm
+description: Same service restarting multiple times in a short period
+enabled: true
+conditions:
+  event_type: service_restart
+window:
+  minutes: 2
+threshold:
+  count: 3
+severity: medium
+key_field: service_name
+mitre_attack: TA0040

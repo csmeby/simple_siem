@@ -1,0 +1,16 @@
+id: R1002
+name: Suspicious admin login time
+description: Admin account login during unusual hours (00:00–05:00)
+enabled: true
+conditions:
+  event_type: login_success
+  user_role: admin
+  timestamp_hour:
+    range: [0, 5]
+window:
+  minutes: 1
+threshold:
+  count: 1
+severity: medium
+key_field: user
+mitre_attack: TA0001

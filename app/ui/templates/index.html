@@ -1,46 +1,153 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Simple SIEM - Alerts</title>
-  <style>
-    body { font-family: sans-serif; margin: 20px; }
-    h1 { margin-bottom: 10px; }
-    button { padding: 5px 10px; margin-bottom: 10px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 4px 8px; font-size: 14px; }
-    th { background: #eee; }
-  </style>
-</head>
-<body>
-  <h1>Alerts</h1>
-  <button onclick="loadAlerts()">Refresh</button>
-  <table id="alerts">
-    <thead>
-      <tr><th>Time</th><th>Severity</th><th>Rule</th><th>Title</th><th>Status</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+<html lang="en">
 
-  <script>
-    async function loadAlerts() {
-      const res = await fetch('/alerts?limit=50');
-      const data = await res.json();
-      const tbody = document.querySelector('#alerts tbody');
-      tbody.innerHTML = '';
-      for (const a of data) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${a.timestamp}</td>
-          <td>${a.severity}</td>
-          <td>${a.rule_id}</td>
-          <td>${a.title}</td>
-          <td>${a.status}</td>
-        `;
-        tbody.appendChild(tr);
-      }
-    }
-    loadAlerts();
-  </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple SIEM | Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            Simple SIEM
+        </div>
+        <div class="nav-item active" data-target="dashboard-section" onclick="switchSection('dashboard-section')">
+            Dashboard</div>
+        <div class="nav-item" data-target="events-section" onclick="switchSection('events-section')">Events</div>
+        <div class="nav-item" data-target="rules-section" onclick="switchSection('rules-section')">Rules</div>
+        <div class="nav-item" data-target="agents-section" onclick="switchSection('agents-section')">Agents</div>
+        <div class="nav-item" data-target="settings-section" onclick="switchSection('settings-section')">Settings</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="section">
+            <div class="header">
+                <h1 class="page-title">Security Overview</h1>
+                <button class="btn" onclick="initDashboard()">
+                    Refresh Data
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Total Alerts</div>
+                    <div class="stat-value" id="stat-total">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">High Priority</div>
+                    <div class="stat-value" id="stat-high" style="color: var(--error-color)">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Medium Priority</div>
+                    <div class="stat-value" id="stat-medium" style="color: var(--warning-color)">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Triggered Rules</div>
+                    <div class="stat-value" id="stat-rules">0</div>
+                </div>
+
+                <!-- Chart -->
+                <div class="chart-container">
+                    <canvas id="alertsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Alerts Table -->
+            <h2 style="margin-bottom: 20px; font-size: 18px;">Latest Alerts</h2>
+            <div class="table-container">
+                <table id="alerts-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Severity</th>
+                            <th>Rule ID</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Events Section -->
+        <div id="events-section" class="section" style="display: none;">
+            <div class="header">
+                <h1 class="page-title">Raw Events</h1>
+                <button class="btn" onclick="loadEvents()">Refresh</button>
+            </div>
+            <div class="table-container">
+                <table id="events-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Host</th>
+                            <th>Source</th>
+                            <th>Message</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div id="rules-section" class="section" style="display: none;">
+            <div class="header">
+                <h1 class="page-title">Detection Rules</h1>
+                <button class="btn" onclick="loadRules()">Refresh</button>
+            </div>
+            <div class="table-container">
+                <table id="rules-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Severity</th>
+                            <th>MITRE</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Agents Section -->
+        <div id="agents-section" class="section" style="display: none;">
+            <div class="header">
+                <h1 class="page-title">Agents</h1>
+            </div>
+            <p style="color: var(--text-secondary)">No agents connected.</p>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings-section" class="section" style="display: none;">
+            <div class="header">
+                <h1 class="page-title">Settings</h1>
+            </div>
+            <p style="color: var(--text-secondary)">Settings panel coming soon.</p>
+        </div>
+
+    </div>
+
+    <script src="/static/js/main.js"></script>
 </body>
+
 </html>

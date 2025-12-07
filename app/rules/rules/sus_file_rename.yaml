@@ -1,0 +1,15 @@
+id: R6003
+name: Possible ransomware activity
+description: Many file renames with unusual or encrypted extensions
+enabled: true
+conditions:
+  event_type: file_rename
+  file_extension:
+    in: [".locked", ".enc", ".crypt"]
+window:
+  minutes: 2
+threshold:
+  count: 20
+severity: critical
+key_field: host
+mitre_attack: TA0040

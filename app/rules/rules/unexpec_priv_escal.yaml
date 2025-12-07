@@ -1,0 +1,15 @@
+id: R5002
+name: Unexpected privileged process
+description: Non-admin user starting a privileged-only process
+enabled: true
+conditions:
+  event_type: process_start
+  privilege_required: high
+  user_role: non_admin
+window:
+  minutes: 1
+threshold:
+  count: 1
+severity: high
+key_field: user
+mitre_attack: TA0004

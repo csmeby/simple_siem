@@ -1,0 +1,13 @@
+id: R7001
+name: Failed sudo attempts
+description: Multiple failed sudo escalations from the same user
+enabled: true
+conditions:
+  event_type: sudo_failure
+window:
+  minutes: 2
+threshold:
+  count: 5
+severity: medium
+key_field: user
+mitre_attack: TA0004

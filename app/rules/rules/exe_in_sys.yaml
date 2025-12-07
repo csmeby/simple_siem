@@ -1,0 +1,15 @@
+id: R6001
+name: New executable in system path
+description: Binary created or modified in a sensitive system directory
+enabled: true
+conditions:
+  event_type: file_write
+  file_path:
+    starts_with: ["/usr/bin", "/usr/local/bin", "/bin"]
+window:
+  minutes: 1
+threshold:
+  count: 1
+severity: high
+key_field: file_path
+mitre_attack: TA0003
