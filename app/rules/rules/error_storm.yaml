@@ -1,6 +1,7 @@
 id: R2001
 name: Application error storm
 description: Many ERROR logs from the same host in 1 minute
+summary: Detects repeated application ERROR events from a single host in a short time window, which may indicate instability, resource exhaustion, or malicious activity causing application failures.
 enabled: true
 conditions:
   severity: ERROR
@@ -10,3 +11,4 @@ threshold:
   count: 5
 severity: medium
 key_field: host
+mitre_attack: TA0040

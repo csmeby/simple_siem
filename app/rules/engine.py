@@ -23,6 +23,10 @@ def process_event(db, event: Event):
         # For now, fixed key_field, or default to "src_ip"
         key_field = rule.get("key_field", "src_ip")
         key = event.fields.get(key_field, "unknown")
+        
+        # Fallback for known top-level fields if not in fields dict
+        if key == "unknown" and hasattr(event, key_field):
+            key = getattr(event, key_field)
 
         now = event.timestamp or datetime.utcnow()
         window_delta = timedelta(minutes=window.get("minutes", 5))
@@ -40,13 +44,48 @@ def process_event(db, event: Event):
 
 def matches_conditions(event: Event, conditions: dict) -> bool:
     for field, expected in conditions.items():
-        if hasattr(event, field):
-            value = getattr(event, field)
-        else:
-            value = event.fields.get(field)
+        value = get_event_value(event, field)
 
-        if expected != "*" and value != expected:
+        # Handle operators (if expected is a dict)
+        if isinstance(expected, dict):
+            if not match_operators(value, expected):
+                return False
+        # Handle simple equality
+        elif expected != "*" and value != expected:
             return False
+            
+    return True
+
+def get_event_value(event: Event, field: str):
+    # Virtual fields
+    if field == "timestamp_hour":
+        return event.timestamp.hour
+
+    # Standard fields
+    if hasattr(event, field):
+        return getattr(event, field)
+    # Custom fields
+    return event.fields.get(field)
+
+def match_operators(value, operators: dict) -> bool:
+    if value is None:
+        return False
+        
+    for op, params in operators.items():
+        if op == "starts_with":
+            if isinstance(params, list):
+                if not any(str(value).startswith(p) for p in params):
+                    return False
+            elif not str(value).startswith(params):
+                return False
+        elif op == "in":
+            if value not in params:
+                return False
+        elif op == "range":
+            # range: [min, max]
+            if not (params[0] <= value <= params[1]):
+                return False
+        # Add more operators as needed
     return True
 
 def create_alert(db, rule, key, event: Event):

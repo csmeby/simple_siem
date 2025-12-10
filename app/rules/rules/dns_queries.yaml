@@ -1,6 +1,7 @@
 id: R3003
 name: DNS query flood
 description: High volume of DNS queries from a single host
+summary: Detects when a single host issues an unusually high volume of DNS queries within a short time window, indicating potential DNS flooding or reconnaissance activity.
 enabled: true
 conditions:
   event_type: dns_query

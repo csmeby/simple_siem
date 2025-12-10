@@ -1,6 +1,7 @@
 id: R1001
 name: SSH brute-force
 description: Detect multiple failed SSH logins from the same IP
+summary: Detects repeated failed SSH login attempts from a single IP address within a short time window, indicating potential brute-force attempts to gain unauthorized access.
 enabled: true
 conditions:
   event_type: auth_failure
@@ -10,3 +11,4 @@ threshold:
   count: 10
 severity: high
 key_field: src_ip
+mitre_attack: TA0006

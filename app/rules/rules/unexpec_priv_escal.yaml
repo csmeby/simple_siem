@@ -1,6 +1,7 @@
 id: R5002
 name: Unexpected privileged process
 description: Non-admin user starting a privileged-only process
+summary: Detects instances where a non-admin user starts a process that requires high privileges, which may indicate attempted privilege escalation or unauthorized execution of sensitive operations.
 enabled: true
 conditions:
   event_type: process_start

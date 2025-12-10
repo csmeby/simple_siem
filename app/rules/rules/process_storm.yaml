@@ -1,6 +1,7 @@
 id: R5001
 name: Process creation burst
 description: Rapid creation of multiple processes on the same host
+summary: Detects an unusually high rate of new process creation on a host within a very short period, which may indicate malware execution, automation scripts, or unauthorized activity generating rapid system changes.
 enabled: true
 conditions:
   event_type: process_start

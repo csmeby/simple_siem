@@ -1,6 +1,7 @@
 id: R6003
 name: Possible ransomware activity
 description: Many file renames with unusual or encrypted extensions
+summary: Detects rapid renaming of files to uncommon or encrypted extensions, which may indicate ransomware encrypting files on a host.
 enabled: true
 conditions:
   event_type: file_rename

@@ -1,6 +1,7 @@
 id: R1003
 name: Excessive password reset requests
 description: Multiple password reset attempts for the same user
+summary: Detects repeated password reset attempts for a single user account within a short period, which may indicate account takeover attempts, credential stuffing, or malicious probing of recovery mechanisms.
 enabled: true
 conditions:
   event_type: password_reset_request

@@ -1,6 +1,7 @@
 id: R4001
 name: Service restart storm
 description: Same service restarting multiple times in a short period
+summary: Detects repeated restarts of the same service within a short window, which may indicate service instability, resource exhaustion, misconfiguration, or malicious interference causing forced restarts.
 enabled: true
 conditions:
   event_type: service_restart

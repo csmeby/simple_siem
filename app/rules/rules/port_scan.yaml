@@ -1,6 +1,7 @@
 id: R3001
 name: Port scanning activity
 description: Multiple connection attempts across many ports from the same IP
+summary: Detects hosts that attempt connections across numerous ports in a short timeframe, a common precursor to reconnaissance and vulnerability discovery by attackers.
 enabled: true
 conditions:
   event_type: connection_attempt

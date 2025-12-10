@@ -1,6 +1,7 @@
 id: R1002
 name: Suspicious admin login time
 description: Admin account login during unusual hours (00:00–05:00)
+summary: Detects successful logins by admin accounts during atypical hours (midnight to early morning), which may indicate compromised credentials or unauthorized access.
 enabled: true
 conditions:
   event_type: login_success

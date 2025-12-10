@@ -1,6 +1,7 @@
 id: R7001
 name: Failed sudo attempts
 description: Multiple failed sudo escalations from the same user
+summary: Detects repeated failed sudo attempts by a user within a short timeframe, which may indicate attempted privilege escalation or unauthorized access attempts.
 enabled: true
 conditions:
   event_type: sudo_failure

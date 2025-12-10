@@ -43,7 +43,7 @@
             <!-- Stats Grid -->
             <div class="dashboard-grid">
                 <div class="stat-card">
-                    <div class="stat-title">Total Alerts</div>
+                    <div class="stat-title">Active Alerts</div>
                     <div class="stat-value" id="stat-total">0</div>
                 </div>
                 <div class="stat-card">
@@ -76,6 +76,7 @@
                             <th>Rule ID</th>
                             <th>Description</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,9 +143,54 @@
             <div class="header">
                 <h1 class="page-title">Settings</h1>
             </div>
-            <p style="color: var(--text-secondary)">Settings panel coming soon.</p>
+
+            <div class="stat-card" style="max-width: 600px;">
+                <div class="form-group">
+                    <label class="form-label">Appearance</label>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Light Mode</span>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Dashboard</label>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Auto-Refresh Data (30s)</span>
+                        <label class="switch">
+                            <input type="checkbox" id="refresh-toggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">System</label>
+                    <p style="color: var(--text-secondary); font-size: 14px;">
+                        Version: 1.0.0<br>
+                        Backend: Running
+                    </p>
+                </div>
+            </div>
         </div>
 
+    </div>
+
+    <!-- Rule Summary Modal -->
+    <div id="rule-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Rule Title</h2>
+            <div id="modal-body">
+                <p id="modal-desc"></p>
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 15px 0;">
+                <strong>Summary:</strong>
+                <p id="modal-summary" style="margin-top: 5px; color: var(--text-secondary)"></p>
+            </div>
+        </div>
     </div>
 
     <script src="/static/js/main.js"></script>

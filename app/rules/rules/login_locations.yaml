@@ -1,6 +1,7 @@
 id: R1005
 name: Impossible travel login
 description: Multiple successful logins from distant locations in impossible time
+summary: Detects successful logins from geographically distant locations within a timeframe that makes legitimate travel impossible, indicating potential account compromise or credential misuse.
 enabled: true
 conditions:
   event_type: login_success

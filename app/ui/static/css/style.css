@@ -9,6 +9,21 @@
     --success-color: #238636;
     --warning-color: #d29922;
     --error-color: #f85149;
+    --input-bg: #0d1117;
+}
+
+body.light-theme {
+    --bg-color: #f6f8fa;
+    --sidebar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --text-primary: #24292f;
+    --text-secondary: #57606a;
+    --accent-color: #0969da;
+    --border-color: #d0d7de;
+    --success-color: #1a7f37;
+    --warning-color: #9a6700;
+    --error-color: #cf222e;
+    --input-bg: #f6f8fa;
 }
 
 body {
@@ -19,6 +34,7 @@ body {
     display: flex;
     height: 100vh;
     overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Sidebar */
@@ -29,6 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    transition: background-color 0.3s;
 }
 
 .brand {
@@ -50,9 +67,12 @@ body {
     margin-bottom: 5px;
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
     background-color: var(--card-bg);
     color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    /* Added border for better visibility in light mode */
 }
 
 /* Main Content */
@@ -123,7 +143,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px 20px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
@@ -138,7 +159,7 @@ th {
 }
 
 tr:hover {
-    background-color: rgba(255, 255, 255, 0.02);
+    background-color: rgba(127, 127, 127, 0.1);
 }
 
 /* Severity Badges */
@@ -149,7 +170,8 @@ tr:hover {
     font-weight: 600;
 }
 
-.severity-high, .severity-critical {
+.severity-high,
+.severity-critical {
     background-color: rgba(248, 81, 73, 0.15);
     color: var(--error-color);
     border: 1px solid rgba(248, 81, 73, 0.4);
@@ -161,7 +183,8 @@ tr:hover {
     border: 1px solid rgba(210, 153, 34, 0.4);
 }
 
-.severity-low, .severity-info {
+.severity-low,
+.severity-info {
     background-color: rgba(56, 139, 253, 0.15);
     color: var(--accent-color);
     border: 1px solid rgba(56, 139, 253, 0.4);
@@ -180,4 +203,102 @@ tr:hover {
 
 .btn:hover {
     opacity: 0.9;
+}
+
+/* Settings Form */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--accent-color);
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+}
+
+.close-modal {
+    color: var(--text-secondary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
 }

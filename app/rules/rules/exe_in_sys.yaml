@@ -1,6 +1,7 @@
 id: R6001
 name: New executable in system path
 description: Binary created or modified in a sensitive system directory
+summary: Detects creation or modification of executables within critical system directories, which may indicate privilege escalation attempts, persistence mechanisms, or unauthorized software installation.
 enabled: true
 conditions:
   event_type: file_write
